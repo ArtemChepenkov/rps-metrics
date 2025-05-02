@@ -2,11 +2,56 @@ services:
   server:
     build:
       ./server
-    environment:
-      - RPS=100
-      - DURATION=10
     ports:
       - "8080:8080"
+
   client:
+    environment:
+      - RPS=2000
+      - DURATION=1000
     build:
       ./client
+
+  node-exporter:
+    image:
+      prom/node-exporter
+    ports:
+      - "9100:9100"
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+
+  blackbox-exporter:
+    image:
+      prom/blackbox-exporter
+    ports:
+      - "9115:9115"
+    volumes:
+      - ./blackbox.yaml:/etc/blackbox/blackbox.yaml
+    command:
+      - '--config.file=/etc/blackbox/blackbox.yaml'
+
+  prometheus:
+    image:
+      prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yaml:/etc/prometheus/prometheus.yaml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yaml'
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    depends_on:
+      - prometheus
+    volumes:
+    - grafana-data:/var/lib/grafana
+volumes:
+  grafana-data:
+    name: grafana-data

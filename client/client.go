@@ -11,7 +11,7 @@ import (
 
 func main() {
 	rps := flag.Int("rps", 100, "Requests per second")
-	duration := flag.Int("duration", 10, "Test duration in seconds")
+	duration := flag.Int("duration", 1000, "Test duration in seconds")
 	flag.Parse()
 
 	requestsPerSecond := *rps
