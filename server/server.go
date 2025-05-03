@@ -4,7 +4,8 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"time"
+	_ "time"
+	_ "math"
 )
 
 func main() {
@@ -19,7 +20,10 @@ func main() {
 			return
 		}
 
-		time.Sleep(50 * time.Millisecond)
+		temp := 3
+		for i := 0; i < 10000; i++ {
+			temp = temp*temp%1000
+		}
 
 		response := fmt.Sprintf("Processed request '%s'\n", request)
 		w.Header().Set("Content-Type", "text/plain")

@@ -7,7 +7,7 @@ services:
 
   client:
     environment:
-      - RPS=2000
+      - RPS=1000
       - DURATION=1000
     build:
       ./client

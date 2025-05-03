@@ -1,28 +1,30 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"net/http"
 	"sync"
 	"sync/atomic"
 	"time"
+	"os"
+	"strconv"
 )
 
 func main() {
-	rps := flag.Int("rps", 100, "Requests per second")
-	duration := flag.Int("duration", 1000, "Test duration in seconds")
-	flag.Parse()
+	//rps := flag.Int("rps", 100, "Requests per second")
+	//duration := flag.Int("duration", 1000, "Test duration in seconds")
+	rps, _:= strconv.Atoi(os.Getenv("RPS"))
+	duration, _ := strconv.Atoi(os.Getenv("DURATION"))
 
-	requestsPerSecond := *rps
-	totalDuration := time.Duration(*duration) * time.Second
+	requestsPerSecond := rps
+	totalDuration := time.Duration(duration) * time.Second
 
 	var success, failed uint64
 
 	rateLimiter := time.Tick(time.Second / time.Duration(requestsPerSecond))
 	var wg sync.WaitGroup
 
-	fmt.Printf("Starting test with RPS: %d, Duration: %ds\n", requestsPerSecond, *duration)
+	fmt.Printf("Starting test with RPS: %d, Duration: %ds\n", requestsPerSecond, duration)
 	start := time.Now()
 	for time.Since(start) < totalDuration {
 		<-rateLimiter
