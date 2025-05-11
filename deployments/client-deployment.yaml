@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: client
+  template:
+    metadata:
+      labels:
+        app: client
+    spec:
+      containers:
+      - name: client
+        image: client
+        imagePullPolicy: Never
+        env:
+        - name: SERVER_URL
+          value: "http://server-service:8080"
+        - name: RPS
+          value: "100"
+        - name: DURATION
+          value: "1000"

@@ -31,6 +31,7 @@ func main() {
 		if _, err := w.Write([]byte(response)); err != nil {
 			log.Printf("Error writing response: %v", err)
 		}
+		fmt.Println("Send")
 	})
 
 	log.Println("Server starting on :8080...")

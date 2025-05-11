@@ -31,7 +31,7 @@ func main() {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
-			resp, err := http.Get("http://server:8080/process?request=test")
+			resp, err := http.Get("http://localhost:8080/process?request=test")
 			if err != nil {
 				atomic.AddUint64(&failed, 1)
 				return
@@ -42,6 +42,7 @@ func main() {
 			} else {
 				atomic.AddUint64(&failed, 1)
 			}
+			fmt.Printf("Test completed.\nSuccessful requests: %d\nFailed requests: %d\n", success, failed)
 		}()
 	}
 
