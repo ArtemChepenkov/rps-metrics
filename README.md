@@ -4,26 +4,30 @@
 ### Стек:
   * Go
   * Docker
-  * Docker compose
+  * Kubernetes
   * Grafana
   * Prometheus
 
 ### Клиент-сервер
   * В данном проекте схема работы клиента и сервера довольно проста: клиент с определённой частотой (указывается в docker-compose.yaml) посылает запросы, затем сервер делает псевдоработу, и отвечает клиенту
 
-### Контейнеризация
-  * Все логические части приложения разбиты в отдельные контейнеры, а именно:
+### Контейнеризация и оркестрация
+  * Все логические части приложения разбиты в отдельные поды, а именно:
       - server
       - client
       - node-exporter
       - blackbox-exporter
       - prometheus
       - grafana
+   * Для оркестрации использовался minikube
+   * Деплойменты можно применить через .sh скрипт в корне, также в корне, есть .sh скрипт для проброса порта
 ### Метрики
   * Prometheus собирает метрики с Node-exporter (системные метрики), Blackbox-exporter (метрики HTTP-проверок), а Grafana использует эти данные для построения графиков и дашбордов.
 
 ### Имеется возможность посмотреть собранные метрики:
 #### Системные метрики (ID 1860, используется Node-exporter)
-![image](https://github.com/user-attachments/assets/0b19eaf3-e262-47a6-995c-ea5300093669)
-#### HTTP метрики (ID 7587, используется Blackbox-exporter)
-![image](https://github.com/user-attachments/assets/1b066b4f-d2c6-4d0d-88a8-ddee9cc60c7d)
+![Снимок экрана 2025-05-08 011308](https://github.com/user-attachments/assets/18e41411-1e18-4efc-9bb6-3a35836ddad5)
+
+#### HTTP метрики (ID 7587, используется Blackbox-exporter, пока тут небольшие проблемки)
+![image](https://github.com/user-attachments/assets/bb4153f4-5119-45d9-9dce-7ac9755d5d6e)
+
